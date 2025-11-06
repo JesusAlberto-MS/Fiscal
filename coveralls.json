@@ -14,8 +14,8 @@
     ],
 
     "skip_files": [
-        "lib/filebox/http/client.ex",
-        "lib/filebox/http/http_client.ex",
+        "lib/fiscal/http/client.ex",
+        "lib/fiscal/http/http_client.ex",
         "test/support/channel_case.ex"
     ],
 
