@@ -1,21 +1,14 @@
 defmodule Fiscal.MixProject do
   use Mix.Project
 
+  @version "0.0.1"
+
   def project do
     [
       app: :fiscal,
-      version: "0.1.0",
-      elixir: "~> 1.18",
+      version: @version,
+      elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
-      elixirc_options: [warnings_as_errors: Mix.env() != :test],
-      test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test,
-        "test.watch": :test
-      ],
       deps: deps()
     ]
   end
@@ -30,18 +23,8 @@ defmodule Fiscal.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # Dependencias de análisis de código y calidad
-      {:credo, ">= 0.0.0", only: [:dev, :test], runtime: false},
-      {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false},
-      {:earmark, ">= 1.4.47", only: [:dev]},
-      {:ex_check, "~> 0.16.0", only: [:dev, :test], runtime: false},
-      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.10", only: :test},
-      {:faker, "~> 0.18", only: :test},
-      {:mix_audit, ">= 0.0.0", only: [:dev, :test], runtime: false},
-      {:mix_test_watch, "~> 1.0", only: [:test], runtime: false},
-      {:sobelow, ">= 0.0.0", only: [:dev, :test], runtime: false},
-      {:req, "~> 0.5.0"}
+      # {:dep_from_hexpm, "~> 0.3.0"},
+      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
   end
 end
