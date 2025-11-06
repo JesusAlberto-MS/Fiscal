@@ -1,27 +1,26 @@
 {
-    "default_stop_words": [
-        "defmodule",
-        "defrecord",
-        "defimpl",
-        "defexception",
-        "defprotocol",
-        "defstruct",
-        "def.+(.+\/\/.+).+do",
-        "^\\suse\\s"
-    ],
+  "default_stop_words": [
+    "defmodule",
+    "defrecord",
+    "defimpl",
+    "defexception",
+    "defprotocol",
+    "defstruct",
+    "def.+(.+//.+).+do",
+    "^\\suse\\s"
+  ],
 
-    "custom_stop_words": [
-    ],
+  "custom_stop_words": [],
 
-    "skip_files": [
-        "lib/fiscal/http/client.ex",
-        "lib/fiscal/http/http_client.ex",
-        "test/support/channel_case.ex"
-    ],
+  "skip_files": [
+    "lib/fiscal/http/client.ex",
+    "lib/fiscal/http/http_client.ex",
+    "test/.*"
+  ],
 
-    "coverage_options": {
-        "treat_no_relevant_lines_as_covered": false,
-        "output_dir": "cover/",
-        "minimum_coverage": 76
-    }
+  "coverage_options": {
+    "treat_no_relevant_lines_as_covered": false,
+    "output_dir": "cover/",
+    "minimum_coverage": 78
+  }
 }

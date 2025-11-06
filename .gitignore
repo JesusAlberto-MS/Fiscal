@@ -31,3 +31,5 @@ fiscal-*.tar
 
 # files with PR descriptions
 pr_desc/
+
+.envrc
