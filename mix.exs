@@ -40,7 +40,8 @@ defmodule Fiscal.MixProject do
       {:faker, "~> 0.18", only: :test},
       {:mix_audit, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.0", only: [:test], runtime: false},
-      {:sobelow, ">= 0.0.0", only: [:dev, :test], runtime: false}
+      {:sobelow, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:req, "~> 0.5.0"}
     ]
   end
 end
