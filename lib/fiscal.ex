@@ -76,7 +76,7 @@ defmodule Fiscal do
   ```elixir
 
     iex(1)> Fiscal.version()
-    "0.1.0"
+    "0.0.1"
 
   ```
   """
