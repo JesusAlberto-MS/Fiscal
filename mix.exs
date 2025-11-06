@@ -40,7 +40,8 @@ defmodule Fiscal.MixProject do
       {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:ex_machina, "~> 2.8.0", only: :test},
       {:excoveralls, "~> 0.10", only: :test},
-      {:mix_audit, ">= 0.0.0", only: [:dev, :test], runtime: false}
+      {:mix_audit, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:req, "~> 0.5.0"}
     ]
   end
 end
