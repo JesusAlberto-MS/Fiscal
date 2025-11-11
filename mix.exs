@@ -41,7 +41,12 @@ defmodule Fiscal.MixProject do
       {:ex_machina, "~> 2.8.0", only: :test},
       {:excoveralls, "~> 0.10", only: :test},
       {:mix_audit, ">= 0.0.0", only: [:dev, :test], runtime: false},
-      {:req, "~> 0.5.0"}
+
+      # Dependencias http
+      {:req, "~> 0.5.0"},
+      # Req lo usa internamente
+      {:finch, "~> 0.14"},
+      {:jason, "~> 1.4"}
     ]
   end
 end

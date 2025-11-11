@@ -6,8 +6,11 @@ defmodule Fiscal.People do
   las peticiones, permitiendo usar diferentes implementaciones según
   el ambiente (HttpClient en producción, MemoryClient en tests).
   """
-
   alias Fiscal.Http
+
+  @base_url Application.compile_env(:fiscal, :base_url)
+  @api_key Application.compile_env(:fiscal, :api_key)
+  @tenant_key Application.compile_env(:fiscal, :tenant_key)
 
   @doc """
   Crea una nueva persona en Fiscal API.
@@ -36,20 +39,16 @@ defmodule Fiscal.People do
       {:ok, %{...}}
   """
   def create(attrs) do
-    client_module = Http.client()
-    client = client_module.new()
+    headers = build_headers()
+    body = build_body(attrs)
 
-    body = %{
-      "legalName" => attrs[:legal_name] || attrs["legal_name"],
-      "tin" => attrs[:tin] || attrs["tin"],
-      "email" => attrs[:email] || attrs["email"],
-      "satTaxRegimeId" => attrs[:sat_tax_regime_id] || attrs["sat_tax_regime_id"],
-      "satCfdiUseId" => attrs[:sat_cfdi_use_id] || attrs["sat_cfdi_use_id"],
-      "zipCode" => attrs[:zip_code] || attrs["zip_code"],
-      "password" => attrs[:password] || attrs["password"]
-    }
+    case Http.post("/people", base_url: @base_url, headers: headers, json: body) do
+      {:ok, %{body: response_body}} ->
+        {:ok, response_body}
 
-    client_module.post(client, "/people", body)
+      {:error, reason} ->
+        {:error, reason}
+    end
   end
 
   @doc """
@@ -64,33 +63,18 @@ defmodule Fiscal.People do
       {:ok, %{...}}
   """
   def get(person_id) do
-    client_module = Http.client()
-    client = client_module.new()
+    headers = build_headers()
 
-    client_module.get(client, "/people/#{person_id}")
-  end
+    case Http.get("/people/#{person_id}",
+           base_url: @base_url,
+           headers: headers
+         ) do
+      {:ok, %{body: response_body}} ->
+        {:ok, response_body}
 
-  @doc """
-  Lista todas las personas.
-
-  ## Parámetros
-    * `opts` - Opciones adicionales para la petición (opcional)
-      * `:page` - Número de página
-      * `:limit` - Cantidad de resultados por página
-
-  ## Ejemplos
-
-      iex> Fiscal.People.list()
-      {:ok, %{"data" => [...]}}
-
-      iex> Fiscal.People.list(page: 2, limit: 50)
-      {:ok, %{"data" => [...]}}
-  """
-  def list(opts \\ []) do
-    client_module = Http.client()
-    client = client_module.new()
-
-    client_module.get(client, "/people", opts)
+      {:error, reason} ->
+        {:error, reason}
+    end
   end
 
   @doc """
@@ -121,25 +105,25 @@ defmodule Fiscal.People do
       {:ok, %{...}}
   """
   def update(person_id, attrs) do
-    client_module = Http.client()
-    client = client_module.new()
+    headers = build_headers()
 
-    # IMPORTANTE: Incluir el ID en el body
     body =
-      %{
-        "id" => person_id,
-        "legalName" => attrs[:legal_name] || attrs["legal_name"],
-        "tin" => attrs[:tin] || attrs["tin"],
-        "email" => attrs[:email] || attrs["email"],
-        "satTaxRegimeId" => attrs[:sat_tax_regime_id] || attrs["sat_tax_regime_id"],
-        "satCfdiUseId" => attrs[:sat_cfdi_use_id] || attrs["sat_cfdi_use_id"],
-        "zipCode" => attrs[:zip_code] || attrs["zip_code"],
-        "password" => attrs[:password] || attrs["password"]
-      }
+      build_body(attrs)
+      |> Map.merge(%{"id" => person_id})
       |> Enum.reject(fn {k, v} -> k != "id" && is_nil(v) end)
       |> Map.new()
 
-    client_module.put(client, "/people/#{person_id}", body)
+    case Http.put("/people/#{person_id}",
+           base_url: @base_url,
+           headers: headers,
+           json: body
+         ) do
+      {:ok, %{body: response_body}} ->
+        {:ok, response_body}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
   end
 
   @doc """
@@ -154,9 +138,44 @@ defmodule Fiscal.People do
       {:ok, %{...}}
   """
   def delete(person_id) do
-    client_module = Http.client()
-    client = client_module.new()
+    headers = build_headers()
 
-    client_module.delete(client, "/people/#{person_id}")
+    case Http.delete("/people/#{person_id}",
+           base_url: @base_url,
+           headers: headers
+         ) do
+      {:ok, %{body: response_body}} ->
+        {:ok, response_body}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  # Función helper para construir headers comunes
+  defp build_headers do
+    [
+      {"X-API-KEY", @api_key},
+      {"X-TENANT-KEY", @tenant_key},
+      {"Content-Type", "application/json"}
+    ]
+  end
+
+  # Helper para obtener un atributo usando clave de átomo o string
+  defp get_attr(attrs, key) do
+    attrs[key] || attrs[Atom.to_string(key)]
+  end
+
+  # Construye el body para crear una persona
+  defp build_body(attrs) do
+    %{
+      "legalName" => get_attr(attrs, :legal_name),
+      "tin" => get_attr(attrs, :tin),
+      "email" => get_attr(attrs, :email),
+      "satTaxRegimeId" => get_attr(attrs, :sat_tax_regime_id),
+      "satCfdiUseId" => get_attr(attrs, :sat_cfdi_use_id),
+      "zipCode" => get_attr(attrs, :zip_code),
+      "password" => get_attr(attrs, :password)
+    }
   end
 end

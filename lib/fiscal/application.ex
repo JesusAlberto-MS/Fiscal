@@ -10,6 +10,7 @@ defmodule Fiscal.Application do
     children = [
       # Starts a worker by calling: Fiscal.Worker.start_link(arg)
       # {Fiscal.Worker, arg}
+      {Finch, name: FiscalFinch}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

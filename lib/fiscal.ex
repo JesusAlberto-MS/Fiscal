@@ -1,20 +1,23 @@
 defmodule Fiscal do
   @moduledoc """
-  Documentation for `Fiscal`.
+  Módulo principal de `fiscal`.
+  Proporciona funciones para obtener el entorno de compilación,
+  la versión de la aplicación y detalles del sistema.
+
+  ## Ejemplos
+
+    ```elixir
+    > Fiscal.env()
+    :dev
+
+    > Fiscal.version()
+    "0.0.1"
+
+    > Fiscal.version_details()
+    %{otp_version: "24", elixir_version: "1.14.0"}
+    ```
+
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Fiscal.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 
   require Logger
 

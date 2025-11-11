@@ -3,10 +3,6 @@ defmodule FiscalTest do
   import ExUnit.CaptureLog
   doctest Fiscal
 
-  test "greets the world" do
-    assert Fiscal.hello() == :world
-  end
-
   @allowed_environments %{
     "prod" => :prod,
     "test" => :test,

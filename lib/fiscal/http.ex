@@ -1,58 +1,24 @@
 defmodule Fiscal.Http do
   @moduledoc """
+  Fachada pública para el cliente HTTP de Fiscal.
   Encapsula la lógica relacionada con la generación de peticiones HTTP
   para Fiscal API.
 
   Este módulo actúa como punto de entrada para obtener la configuración
   y el cliente HTTP que se utilizará en toda la aplicación.
+
+  Por defecto usa `Fiscal.Http.HttpClient`, pero se puede
+  inyectar otra implementación mediante configuración o argumento.
   """
 
-  @doc """
-  Función que obtiene un arreglo de la configuración definida para
-  la aplicación.
+  @client Application.compile_env(:fiscal, Fiscal.Http, client: Fiscal.Http.HttpClient)[:client]
 
-  Por ejemplo, cuando se define en el archivo de configuración lo
-  siguiente:
-  ```elixir
-  config :fiscal, Fiscal.Http,
-    client: Fiscal.Http.HttpClient
-  ```
+  @spec request(atom(), String.t(), keyword()) :: {:ok, map()} | {:error, term()}
+  def request(method, url, opts \\ []), do: @client.request(method, url, opts)
 
-  Se puede obtener la configuración con la siguiente instrucción:
-  ```elixir
-  iex> Fiscal.Http.config()
-  [client: Fiscal.Http.MemoryClient]
-  ```
-
-  """
-  def config do
-    Application.get_env(:fiscal, Fiscal.Http, default_config())
-  end
-
-  @doc """
-  Obtiene el módulo definido como cliente para el entorno en el que se está
-  ejecutando el sistema.
-
-  ## Ejemplo:
-
-  En ambiente de pruebas:
-  ```elixir
-  iex> Fiscal.Http.client()
-  Fiscal.Http.MemoryClient
-  ```
-
-  En ambiente de producción retornaría:
-  ```
-  Fiscal.Http.HttpClient
-  ```
-
-  """
-  def client, do: config()[:client]
-
-  # Configuración por defecto
-  defp default_config do
-    [
-      client: Fiscal.Http.HttpClient
-    ]
-  end
+  def get(url, opts \\ []), do: @client.get(url, opts)
+  def post(url, opts \\ []), do: @client.post(url, opts)
+  def put(url, opts \\ []), do: @client.put(url, opts)
+  def patch(url, opts \\ []), do: @client.patch(url, opts)
+  def delete(url, opts \\ []), do: @client.delete(url, opts)
 end

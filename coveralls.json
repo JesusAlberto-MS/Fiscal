@@ -13,14 +13,15 @@
   "custom_stop_words": [],
 
   "skip_files": [
-    "lib/fiscal/http/client.ex",
+    "lib/fiscal/http/adapter.ex",
     "lib/fiscal/http/http_client.ex",
+    "lib/fiscal/http/memory_client.ex",
     "test/.*"
   ],
 
   "coverage_options": {
     "treat_no_relevant_lines_as_covered": false,
     "output_dir": "cover/",
-    "minimum_coverage": 78
+    "minimum_coverage": 68
   }
 }

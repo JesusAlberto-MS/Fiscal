@@ -12,5 +12,7 @@ config :fiscal,
   tenant_key: System.get_env("FISCAL_TENANT_KEY_TEST"),
   base_url: System.get_env("FISCAL_ULR_TEST")
 
-# Import environment-specific configuration
-import_config "#{config_env()}.exs"
+if config_env() == :test do
+  # Import environment-specific configuration
+  import_config "#{config_env()}.exs"
+end
