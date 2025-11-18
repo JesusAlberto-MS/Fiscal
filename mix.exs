@@ -44,9 +44,13 @@ defmodule Fiscal.MixProject do
 
       # Dependencias http
       {:req, "~> 0.5.0"},
+
       # Req lo usa internamente
       {:finch, "~> 0.14"},
-      {:jason, "~> 1.4"}
+      {:jason, "~> 1.4"},
+
+      # Dependencias de Ecto
+      {:ecto, "~> 3.10"}
     ]
   end
 end
